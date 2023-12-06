@@ -1,6 +1,6 @@
 - | # 0x00. AirBnB clone - The console |
 - | ---------------------------------- |
-- | ALX Group Project                |
+- | ALX Group Project                  |
 - | Python                             |
 - | OOP                                |
 
@@ -13,38 +13,38 @@ Welcome to the AirBnB clone project! In this collaborative effort, the goal is t
 ## Project Phases
 
 ### 1. Command Interpreter
-- *Description:* Develop a command-line interpreter that allows manipulation of data without a visual interface, similar to a shell.
+- **Description:** Develop a command-line interpreter that allows manipulation of data without a visual interface, similar to a shell.
 - *Purpose:* Ideal for development and debugging purposes.
-*Key Concepts:*
-- *Unittest:* Collaborate on creating comprehensive test cases.
-- *Python Packages:* Explore and implement the concept of Python packages.
-- *Serialization/Deserialization:* Understand and implement data serialization/deserialization.
+**Key Concepts:**
+- **Unittest:** Collaborate on creating comprehensive test cases.
+- **Python Packages:** Explore and implement the concept of Python packages.
+- **Serialization/Deserialization:** Understand and implement data serialization/deserialization.
 - `*args, **kwargs:` Familiarize yourselves with variable-length argument lists.
-- *Datetime:* Utilize datetime for handling date and time functionalities.
+- **Datetime:** Utilize datetime for handling date and time functionalities.
 
 ### 2. Front-End (Website)
-- *Description:* Create a website (front-end) that showcases the final product to users. This includes both static and dynamic components.
-- *Purpose:* Provide a user-friendly interface for interacting with the AirBnB clone.
-- *Key Concepts:*
-- HTML, CSS, JavaScript: Implement the front-end using these fundamental web technologies.
-- Interactivity: Incorporate dynamic elements for a seamless user experience.
+- **Description:** Create a website (front-end) that showcases the final product to users. This includes both static and dynamic components.
+- **Purpose:** Provide a user-friendly interface for interacting with the AirBnB clone.
+- **Key Concepts:**
+- **HTML, CSS, JavaScript:** Implement the front-end using these fundamental web technologies.
+- **Interactivity:** Incorporate dynamic elements for a seamless user experience.
 
 ### 3. Database or File Storage
-- *Description:* Establish a database or file system to store data, where data is represented as objects.
-- *Purpose:* Store and manage information related to the AirBnB listings and user interactions.
-- *Key Concepts:*
-- Database Management: Explore database concepts and management techniques.
-- File Handling: Implement file storage mechanisms for persisting data.
+- **Description:** Establish a database or file system to store data, where data is represented as objects.
+- **Purpose:** Store and manage information related to the AirBnB listings and user interactions.
+- **Key Concepts:**
+- **Database Management:** Explore database concepts and management techniques.
+- **File Handling:** Implement file storage mechanisms for persisting data.
 
 ### 4. API Development
-- *Description:* Build an API that serves as a communication interface between the front-end and data, enabling operations like retrieval, creation, deletion, and updating.
-- *Purpose:* Facilitate seamless interaction between the user interface and the underlying data.
-- *Key Concepts:*
-- API Design: Define clear and efficient API endpoints.
-- CRUD Operations: Implement Create, Read, Update, and Delete operations through the API.
+- **Description:** Build an API that serves as a communication interface between the front-end and data, enabling operations like retrieval, creation, deletion, and updating.
+- **Purpose:** Facilitate seamless interaction between the user interface and the underlying data.
+- **Key Concepts:**
+- **API Design:** Define clear and efficient API endpoints.
+- **CRUD Operations:** Implement Create, Read, Update, and Delete operations through the API.
 
 # Command Interpreter
-- *Description*
+- **Description**
 The command interpreter is a crucial component of the AirBnB clone project, providing a command-line interface for manipulating data. It serves as a powerful tool for development and debugging, allowing efficient interaction with the underlying functionalities.
 
 ### How to Start
@@ -62,11 +62,11 @@ python console.py
 ### How to Use
 The command interpreter supports a variety of commands for managing data. Some key commands include:
 
-- *create:* Create a new instance of a class.
+- **create:** Create a new instance of a class.
 - *show:* Display details of a specific instance.
-- *destroy:* Delete a specified instance.
-- *all:* Display all instances or all instances of a specific class.
-- *update:* Update attributes of a specific instance.
+- **destroy:** Delete a specified instance.
+- **all:** Display all instances or all instances of a specific class.
+- **update:** Update attributes of a specific instance.
 
 ### Examples
 Here are some examples of using the command interpreter:
@@ -107,9 +107,9 @@ Follow these steps to get started with the AirBnB clone project:
 Explore individual components (Command Interpreter, Front-End, Database, API) in their respective directories.
 
 ## Collaborative Development Guidelines
-1. *Communication:* Maintain open and clear communication through regular meetings and discussions.
-2. *Testing:* Collaborate on creating thorough test cases to ensure the reliability of the code.
-3. *Documentation:* Document code, APIs, and any important project-related information for future reference.
+1. **Communication:** Maintain open and clear communication through regular meetings and discussions.
+2. **Testing:** Collaborate on creating thorough test cases to ensure the reliability of the code.
+3. **Documentation:** Document code, APIs, and any important project-related information for future reference.
 
 ## Additional Concepts (To Be Introduced)
 - Additional concepts will be introduced as the project progresses. Stay tuned for updates!
