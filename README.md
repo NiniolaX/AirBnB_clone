@@ -1,12 +1,6 @@
-- | # 0x00. AirBnB clone - The console |
-- | ---------------------------------- |
-- | ALX Group Project                  |
-- | Python                             |
-- | OOP                                |
-
+# AirBnB Clone - The Console
 The AirBnB clone project is a part of the ALX Higher Level Programming Langugage project that focuses on the reproduction (having a clone)
 
-# AirBnB Clone - The Console
 ## Project Overview
 Welcome to the AirBnB clone project! In this collaborative effort, the goal is to deploy a simplified version of the AirBnB website. The project spans four months and covers various aspects of higher-level programming concepts, focusing on creating essential components of the AirBnB application.
 
@@ -14,7 +8,8 @@ Welcome to the AirBnB clone project! In this collaborative effort, the goal is t
 
 ### 1. Command Interpreter
 - **Description:** Develop a command-line interpreter that allows manipulation of data without a visual interface, similar to a shell.
-- *Purpose:* Ideal for development and debugging purposes.
+- **Purpose:** Ideal for development and debugging purposes.
+
 **Key Concepts:**
 - **Unittest:** Collaborate on creating comprehensive test cases.
 - **Python Packages:** Explore and implement the concept of Python packages.
