@@ -13,11 +13,19 @@ import uuid
 
 class BaseModel():
     """defines all common attributes/methods for other classes"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ pub. instance attribute: instantiates each instance created"""
-        self.id = str(uuid.uuid4())  # convert to string
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:  # if kwargs is not empty, key=attr_name, val=attr_val
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ['created_at', 'updated_at']:
+                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                    else:
+                        setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())  # convert to string
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """ returns a string representation of the class"""
