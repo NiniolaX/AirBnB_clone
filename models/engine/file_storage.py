@@ -4,7 +4,7 @@ This class serializes instances to a JSON file and
 also deserializes JSON file to instances
 """
 
-
+from ..base_model import BaseModel
 import json
 import os  # this is needed to verify if file exist
 
@@ -46,11 +46,9 @@ class FileStorage:
                 with open(self.__file_path, 'r') as file:
                     loaded_objects = json.load(file)
                     # convert loaded objects to instances of BaseModel
-                    for key, value in loaded_objects.items():
-                        class_name, obj_id = key.split('.')
-                        class_ = globals()[class_name]
-                        instance = class_(**value)
-                        self.__objects[key] = instance
+                for key, value in loaded_objects.items():
+                    new_instance = BaseModel(**value)
+                    self.__objects[key] = new_instance
             except Exception as e:
                 print(str(e))
         else:
