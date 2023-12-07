@@ -11,6 +11,7 @@ from datetime import datetime
 import uuid
 import models
 
+
 class BaseModel:
     """defines all common attributes/methods for other classes"""
     def __init__(self, *args, **kwargs):
@@ -19,14 +20,16 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != '__class__':
                     if key in ['created_at', 'updated_at']:
-                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                        setattr(
+                                self, key, datetime.strptime
+                                (value, "%Y-%m-%dT%H:%M:%S.%f"))
                     else:
                         setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())  # convert to string
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-        
+
         models.storage.new(self)  # add the new instance to storage
 
     def __str__(self):
@@ -46,17 +49,13 @@ class BaseModel:
 
         # add the key __class__ with class name as value
         dict_output["__class__"] = self.__class__.__name__
-        
+
         # add other key-value paris
         for key, value in self.__dict__.items():
-            if key not in ["created_at", "updated_at"]:
+            if key  in ["created_at", "updated_at"]:
+                dict_output[key] = value.isoformat()
+            else:
                 dict_output[key] = value
-
-        # convert the 'create_at' and 'updated_at' to string ISO format
-        if "created_at" in dict_output:
-            dict_output["created_at"] = dict_output["created_at"].isoformat()
-        if "updated_at" in dict_output:
-            dict_output["updated_at"] = dict_output["updated_at"].isoformat()
 
         # return the dictionary
         return dict_output

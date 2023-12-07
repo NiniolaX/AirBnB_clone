@@ -32,7 +32,7 @@ class FileStorage:
         # open the file for serialization (write mode)
         with open(self.__file_path, 'w') as file:
             json.dump({k: v.to_dict() for k, v in self.__objects.items()},
-                file, default=str)
+                      file, default=str)
 
     def reload(self):
         """deserializes the JSON file to __objects
