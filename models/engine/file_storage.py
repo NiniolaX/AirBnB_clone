@@ -4,9 +4,27 @@ This class serializes instances to a JSON file and
 also deserializes JSON file to instances
 """
 
-from ..base_model import BaseModel
+from models.base_model import BaseModel
 import json
 import os  # this is needed to verify if file exist
+from models.user import User
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+
+# create a list of classes
+class_list = {
+        'BaseModel': BaseModel,
+        'User': User,
+        'Place': Place,
+        'State': State,
+        'City': City,
+        'Amenity': Amenity,
+        'Review': Review
+        }
 
 
 class FileStorage:
@@ -45,8 +63,11 @@ class FileStorage:
                     loaded_objects = json.load(file)
                     # convert loaded objects to instances of BaseModel
                 for key, value in loaded_objects.items():
-                    new_instance = BaseModel(**value)
-                    self.__objects[key] = new_instance
+                    # retrieve class name from dict (value)
+                    class_name = value.get('__class__')
+                    if class_name in class_list:
+                        new_instance = class_list[class_name](**value)
+                        self.__objects[key] = new_instance
             except Exception as e:
                 print(str(e))
         else:

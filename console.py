@@ -9,6 +9,18 @@ import cmd
 from models.base_model import BaseModel  # import the BaseModel
 from datetime import datetime
 from models import storage
+from models.user import User
+
+# create a list of all allowed/available classes
+class_list = {
+        'BaseModel': BaseModel,
+        'User': User,
+        'Place': Place,
+        'State': State,
+        'City': City,
+        'Amenity': Amenity,
+        'Review': Review
+        }
 
 
 class HBNBCommand(cmd.Cmd):
@@ -16,9 +28,6 @@ class HBNBCommand(cmd.Cmd):
     It inherits all the features of the Cmd class
     via this class we can run methods that acts like a native shell command
     """
-
-    # create a list of all allowed/available classes
-    class_list = {'BaseModel': BaseModel}
 
     # create a custom prompt
     prompt = "(hbnb) "
@@ -31,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if args not in self.class_list:
+        if args not in class_list:
             print("** class doesn't exist **")
             return
 
@@ -40,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
         class_name = args[0]  # extract first arg as class_name
 
         # create instance from the given class name
-        instance = self.class_list[class_name]()
+        instance = class_list[class_name]()
         # save it to the JSON file
         instance.save()
         # print the ID
@@ -57,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = args[0]
-        if class_name not in self.class_list:
+        if class_name not in class_list:
             print("** class doesn't exist **")
             return
 
@@ -88,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
         # set first arg as class name
         class_name = args[0]
 
-        if class_name not in self.class_list:
+        if class_name not in class_list:
             print("** class doesn't exist **")
             return
 
@@ -118,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
 
         class_name = None  # set default value for class_name
 
-        if args and args[0] not in self.class_list:
+        if args and args[0] not in class_list:
             print("** class doesn't exist **")
             return
 
@@ -143,7 +152,7 @@ class HBNBCommand(cmd.Cmd):
         args = args.split()  # split the args string into separate arguments
         class_name = args[0]
 
-        if class_name not in self.class_list:
+        if class_name not in class_list:
             print("** class doesn't exist **")
             return
 
