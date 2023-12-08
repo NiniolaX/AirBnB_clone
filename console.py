@@ -6,6 +6,8 @@ Which serves as an entry point of a command interpreter
 
 # import the cmd module
 import cmd
+import json
+import re
 from models.base_model import BaseModel  # import the BaseModel
 from datetime import datetime
 from models import storage
@@ -36,6 +38,84 @@ class HBNBCommand(cmd.Cmd):
 
     # create a custom prompt
     prompt = "(hbnb) "
+
+    def onecmd(self, line):
+        match = re.match(r'^(?P<class_name>\w+)\.all\(\)$', line)
+        if match:
+            class_name = match.group('class_name')
+            if class_name in class_list:
+                self.do_all(class_name)
+            else:
+                print("*** class doesn't exist **")
+            return
+
+        match = re.match(r'^(?P<class_name>\w+)\.count\(\)$', line)
+        if match:
+            class_name = match.group('class_name')
+            if class_name in class_list:
+                instances = storage.all()
+                count = sum(1 for instance_key
+                        in instances if
+                        instance_key.startswith(
+                            class_name)
+                        )
+                print(count)
+            else:
+                print("** class doesn't exist **")
+            return
+
+        match = re.match(r'^(?P<class_name>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        if match:
+            class_name = match.group('class_name')
+            id_ = match.group('id')
+            if class_name in class_list:
+                # construct the arg string
+                args = class_name + " " + id_
+                self.do_show(args)
+            else:
+                print("*** class doesn't exist **")
+            return
+
+        match = re.match(r'^(?P<class_name>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        if match:
+            class_name = match.group('class_name')
+            id_ = match.group('id')
+            if class_name in class_list:
+                # construct the arg string
+                args = class_name + " " + id_
+                self.do_destroy(args)
+            else:
+                print("*** class doesn't exist **")
+            return
+
+        # handle the first scenario
+        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>\w+), (?P<attr_name>\w+), (?P<attr_value>.*)\)', line)
+        if match:
+            class_name = match.group('class_name')
+            id_ = match.group('id')
+            attr_name = match.group('attr_name')
+            attr_value = match.group('attr_value').strip('"')
+            args = class_name + ' ' + id_ + ' ' + attr_name + ' ' + attr_value
+            if class_name in class_list:
+                self.do_update(args)
+            else:
+                print('** class doesn\'t exist **')
+            return
+        # handle the second scenario
+        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>\w+), (?P<attr_dict>.*)\)', line)
+        
+        if match:
+            class_name = match.group('class_name')
+            id_ = match.group('id')
+            attr_dict = json.loads(match.group('attr_dict').strip('"'))
+            args = class_name + ' ' + id_ + ' ' + attr_dict
+            if class_name in class_list:
+                self.do_update(args)
+            else:
+                print('** class doesn\'t exist **')
+            return
+
+        return super().onecmd(line)
 
     def do_create(self, args):
         """creates a new instance of BaseModel
