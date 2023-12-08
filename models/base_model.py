@@ -29,8 +29,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())  # convert to string
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-
-        models.storage.new(self)  # add the new instance to storage
+            models.storage.new(self)  # add the new instance to storage
 
     def __str__(self):
         """ returns a string representation of the class"""
