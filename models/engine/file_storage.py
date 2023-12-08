@@ -13,10 +13,8 @@ class FileStorage:
     """ Serializes and Deserializes instances to JSON file
     and JSON file to instances respectively
     """
-    def __init__(self, file_path, objects):
-        """intantiates instances with private attributes"""
-        self.__file_path = file_path
-        self.__objects = objects
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
         """returns the dictionary __objects"""
@@ -30,7 +28,7 @@ class FileStorage:
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         # open the file for serialization (write mode)
-        with open(self.__file_path, 'w') as file:
+        with open(self.__file_path, 'w', encoding="utf-8") as file:
             json.dump({k: v.to_dict() for k, v in self.__objects.items()},
                       file, default=str)
 
@@ -43,7 +41,7 @@ class FileStorage:
         # check if path exists, if true open the file for decoding
         if os.path.exists(self.__file_path):
             try:
-                with open(self.__file_path, 'r') as file:
+                with open(self.__file_path, 'r', encoding="utf-8") as file:
                     loaded_objects = json.load(file)
                     # convert loaded objects to instances of BaseModel
                 for key, value in loaded_objects.items():
