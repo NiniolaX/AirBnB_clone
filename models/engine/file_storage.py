@@ -63,7 +63,7 @@ class FileStorage:
         else, do nothing.
         If the file doesn't exist, no exception should be raised
         """
-        
+
         # check if path exists, if true open the file for decoding
         if os.path.exists(self.__file_path):
             try:
