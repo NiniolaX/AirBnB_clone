@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"""this module defines a class `Place`
-this class inherits from `BaseModel`
+
+"""this module defines a class place
+this class inherits from baseModel
 It creates a new place objects
-while inheriting all properties of `BaseModel`
+while inheriting all properties of baseModel
 """
 
 
@@ -11,8 +12,9 @@ from models.base_model import BaseModel
 
 class Place(BaseModel):
     """A blueprint for all place objects
-    it inherits all properties from `BaseModel`
+    it inherits all properties from baseModel
     """
+
     city_id = ''
     user_id = ''
     name = ''
