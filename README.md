@@ -1,5 +1,5 @@
 # AirBnB Clone - The Console
-The AirBnB clone project is a part of the ALX Higher Level Programming Langugage project that focuses on the reproduction (having a clone)
+The AirBnB clone project is a part of the ALX Higher Level Programming Langugage project that focuses on the reproduction of the AirBnB website.
 
 ## Project Overview
 Welcome to the AirBnB clone project! In this collaborative effort, the goal is to deploy a simplified version of the AirBnB website. The project spans four months and covers various aspects of higher-level programming concepts, focusing on creating essential components of the AirBnB application.
