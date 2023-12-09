@@ -8,6 +8,7 @@ while inheriting all properties of `BaseModel`
 
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """A blueprint for all place objects
     it inherits all properties from `BaseModel`

@@ -51,7 +51,7 @@ class BaseModel:
 
         # add other key-value paris
         for key, value in self.__dict__.items():
-            if key  in ["created_at", "updated_at"]:
+            if key in ["created_at", "updated_at"]:
                 dict_output[key] = value.isoformat()
             else:
                 dict_output[key] = value

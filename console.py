@@ -21,6 +21,7 @@ from models.review import Review
 
 # function to noralize values of the dictionary
 def normalize_value(str_v):
+    """function to normalize values """
     # check if the value is an integer
     if str_v.isdigit() or (str_v[0] == '-' and str_v[1:].isdigit()):
         return int(str_v)
@@ -88,8 +89,9 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             return
 
-        match = re.match
-        (r'^(?P<cls_n>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        match = re.match\
+            (r'^(?P<cls_n>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$',
+                line)
         if match:
             class_name = match.group('cls_n')
             id_ = match.group('id')
@@ -101,8 +103,9 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             return
 
-        match = re.match
-        (r'^(?P<cls_n>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        match = re.match\
+            (r'^(?P<cls_n>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$',
+                line)
         if match:
             class_name = match.group('cls_n')
             id_ = match.group('id')
@@ -157,8 +160,8 @@ class HBNBCommand(cmd.Cmd):
                     return
 
                 try:
-                    attr_name, attr_value =
-                    [parts.strip() for part in parts[1].split(',', 1)]
+                    attr_name, attr_value = \
+                            [parts.strip() for part in parts[1].split(',', 1)]
                 except Exception as e:
                     print(str(e))
                     return
