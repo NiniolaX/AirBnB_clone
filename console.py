@@ -87,28 +87,31 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("*** class doesn't exist **")
             return
-
         # handle the first scenario
-        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>\w+), (?P<attr_name>\w+), (?P<attr_value>.*)\)', line)
+        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>[-\w]+), (?P<attr_name>\w+), (?P<attr_value>[^)]+)\)$', line)
         if match:
+            print("First scenario matched:", match.groupdict())
             class_name = match.group('class_name')
             id_ = match.group('id')
             attr_name = match.group('attr_name')
             attr_value = match.group('attr_value').strip('"')
-            args = class_name + ' ' + id_ + ' ' + attr_name + ' ' + attr_value
+            args = f'{class_name} {id_} {attr_name} {attr_value}'
             if class_name in class_list:
                 self.do_update(args)
             else:
                 print('** class doesn\'t exist **')
             return
+
         # handle the second scenario
-        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>\w+), (?P<attr_dict>.*)\)', line)
-        
+        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>[-\w]+), (?P<attr_dict>.*?)\)$', line)
         if match:
+            print("Second scenario matched:", match.groupdict())
             class_name = match.group('class_name')
             id_ = match.group('id')
-            attr_dict = json.loads(match.group('attr_dict').strip('"'))
-            args = class_name + ' ' + id_ + ' ' + attr_dict
+            attr_dict_str = match.group('attr_dict')
+            # Use json.loads to parse the dictionary string safely
+            attr_dict = json.loads(attr_dict_str)
+            args = f'{class_name} {id_} {json.dumps(attr_dict)}'
             if class_name in class_list:
                 self.do_update(args)
             else:
@@ -220,9 +223,11 @@ class HBNBCommand(cmd.Cmd):
             class_name = args[0]
 
         instances = storage.all()
+        instance_list = []
         for instance_key in instances:
             if class_name is None or instance_key.startswith(class_name):
-                print(instances[instance_key])
+                instance_list.append(str(instances[instance_key]))
+        print(instance_list)
 
     def do_update(self, args):
         """updates the instances based on the classs name and id
