@@ -18,6 +18,30 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+
+# function to noralize values of the dictionary
+def normalize_value(str_v):
+    # check if the value is an integer
+    if str_v.isdigit() or (str_v[0] == '-' and str_v[1:].isdigit()):
+        return int(str_v)
+    # if its just a regular string but has double quotes
+    elif str_v.startswith('"') and not str_v.endswith('"'):
+        return str_v.stri('"')
+
+    # check if the value is a float
+    try:
+        return float(str_v)
+    except (ValueError, Exception):
+        # return as it is if neither int or float
+        return str_v.strip('"')
+
+    # check if the attr is enclosed in double quotes
+    if str_v.startswith('"') and str_v.endswith('"'):
+        return str_v[1:-1]  # Remove the double quotes
+    else:
+        return str_v.strip('"')  # remove the double uotes if found
+
+
 # create a list of all allowed/available classes
 class_list = {
         'BaseModel': BaseModel,
@@ -46,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
             if class_name in class_list:
                 self.do_all(class_name)
             else:
-                print("*** class doesn't exist **")
+                print("** class doesn't exist **")
             return
 
         match = re.match(r'^(?P<class_name>\w+)\.count\(\)$', line)
@@ -55,69 +79,99 @@ class HBNBCommand(cmd.Cmd):
             if class_name in class_list:
                 instances = storage.all()
                 count = sum(1 for instance_key
-                        in instances if
-                        instance_key.startswith(
-                            class_name)
-                        )
+                            in instances if
+                            instance_key.startswith(
+                                class_name)
+                            )
                 print(count)
             else:
                 print("** class doesn't exist **")
             return
 
-        match = re.match(r'^(?P<class_name>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        match = re.match
+        (r'^(?P<cls_n>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
         if match:
-            class_name = match.group('class_name')
+            class_name = match.group('cls_n')
             id_ = match.group('id')
             if class_name in class_list:
                 # construct the arg string
                 args = class_name + " " + id_
                 self.do_show(args)
             else:
-                print("*** class doesn't exist **")
+                print("** class doesn't exist **")
             return
 
-        match = re.match(r'^(?P<class_name>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
+        match = re.match
+        (r'^(?P<cls_n>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$', line)
         if match:
-            class_name = match.group('class_name')
+            class_name = match.group('cls_n')
             id_ = match.group('id')
             if class_name in class_list:
                 # construct the arg string
                 args = class_name + " " + id_
                 self.do_destroy(args)
             else:
-                print("*** class doesn't exist **")
-            return
-        # handle the first scenario
-        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>[-\w]+), (?P<attr_name>\w+), (?P<attr_value>[^)]+)\)$', line)
-        if match:
-            print("First scenario matched:", match.groupdict())
-            class_name = match.group('class_name')
-            id_ = match.group('id')
-            attr_name = match.group('attr_name')
-            attr_value = match.group('attr_value').strip('"')
-            args = f'{class_name} {id_} {attr_name} {attr_value}'
-            if class_name in class_list:
-                self.do_update(args)
-            else:
-                print('** class doesn\'t exist **')
+                print("** class doesn't exist **")
             return
 
-        # handle the second scenario
-        match = re.search(r'(?P<class_name>\w+)\.update\((?P<id>[-\w]+), (?P<attr_dict>.*?)\)$', line)
-        if match:
-            print("Second scenario matched:", match.groupdict())
-            class_name = match.group('class_name')
-            id_ = match.group('id')
-            attr_dict_str = match.group('attr_dict')
-            # Use json.loads to parse the dictionary string safely
-            attr_dict = json.loads(attr_dict_str)
-            args = f'{class_name} {id_} {json.dumps(attr_dict)}'
-            if class_name in class_list:
-                self.do_update(args)
-            else:
-                print('** class doesn\'t exist **')
-            return
+        # if the command starts with a class name and dot 'Class.update'
+        if '.' in line and line.split('.')[1].startswith('update'):
+            # Extract the class name and the rest of the command
+            class_name, r_cmd = line.split('.', 1)
 
+            # check for classname
+            if not class_name:
+                print("** class name missing **")
+                return
+
+            # Remove the 'update' part and the parentheses
+            r_cmd = r_cmd.replace
+            ('update', '').replace('(', '').replace(')', '')
+
+            if len(r_cmd) == 0:
+                print("** instance id missing **")
+                return
+
+            # Split the command into parts
+            parts = [part.strip() for part in r_cmd.split(',', 1)]
+
+            # get the id
+            id_ = parts[0].strip('"')
+
+            if len(parts) == 2 and parts[1].startswith('{')\
+                    and parts[1].endswith('}'):
+                try:
+                    attr_dict = eval(parts[1])
+                except Exception as e:
+                    print(str(e))
+                    return
+                # combine the class,id andn dict into one str
+                args = f"{class_name} {id_} {attr_dict}"
+                return
+                self.do_update(args)
+                return
+            else:
+                # if not dict assume reg values
+                if len(parts) == 1:
+                    print("** attribute missing **")
+                    return
+
+                try:
+                    attr_name, attr_value =
+                    [parts.strip() for part in parts[1].split(',', 1)]
+                except Exception as e:
+                    print(str(e))
+                    return
+                # check missing attribute
+                if not attr_value:
+                    print("** value missing **")
+                    return
+                # combine class, name, id, attr, val to one str
+                args = f"{class_name} {id_} {attr_name} {attr_value}"
+
+            # call method on args
+            self.do_update(args)
+            return
         return super().onecmd(line)
 
     def do_create(self, args):
@@ -239,42 +293,57 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        args = args.split()  # split the args string into separate arguments
-        class_name = args[0]
+        class_name, *rest_args = args.split()  # split the args into sep arg
 
         if class_name not in class_list:
             print("** class doesn't exist **")
             return
 
-        if len(args) == 1:
+        if not rest_args:
             print("** instance id missing **")
             return
 
         # set second arg as instance id
         instances = storage.all()
-        instance_key = args[0] + "." + args[1]
+        instance_key = class_name + "." + rest_args[0]
 
         if instance_key not in instances:
             print("** no instance found **")
             return
 
-        if len(args) == 2:
+        if len(rest_args) == 1:
             print("** attribute name missing **")
             return
 
-        attr_name = args[2]
-
-        if len(args) == 3:
-            print("** value missing **")
-            return
-
-        value = args[3].strip('"')
         instance = instances[instance_key]
+        if rest_args[2].startswith('{') and rest_args[-1].endswith('}'):
+            try:
+                # convert single quotes to double quotes
+                json_str = ' '.join(rest_args[2:]).replace("'", '"')
+                value_dict = json.loads(json_str)
 
-        # set the new attribute for the specific instance
-        setattr(instance, attr_name, value)
+                for key, value in value_dict.items():
+                    setattr(instance, key, normalize_value(value))
+            except (json.JSONDecodeError, Exception) as e:
+                print(str(e))
+                pass
+        else:
+            if len(rest_args) == 2:
+                print("** value missing **")
+                return
+
+            attr_name = rest_args[1].strip('"')
+            value = ' '.join(rest_args[2:]).strip('"')  # Join val wt spaces
+            # set the new attr for the specific instance
+            setattr(instance, attr_name, normalize_value(value))
+
         instance.updated_at = datetime.now()
         instance.save()  # save to JSON file
+
+    def update_from_dict(self, value_dict):
+        """Update instance attr using a dictionary"""
+        for key, value in value_dict.items():
+            setattr(self, key, value)
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
