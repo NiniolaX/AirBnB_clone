@@ -156,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 # if not dict assume reg values
                 if len(parts) == 1:
-                    print("** attribute missing **")
+                    print("** attribute name missing **")
                     return
 
                 try:

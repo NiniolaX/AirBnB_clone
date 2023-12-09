@@ -15,7 +15,7 @@ import models
 class BaseModel:
     """defines all common attributes/methods for other classes"""
     def __init__(self, *args, **kwargs):
-        """ pub. instance attribute: instantiates each instance created"""
+        """pub. instance attribute: instantiates each instance created"""
         if kwargs:  # if kwargs is not empty, key=attr_name, val=attr_val
             for key, value in kwargs.items():
                 if key != '__class__':
@@ -32,7 +32,7 @@ class BaseModel:
             models.storage.new(self)  # add the new instance to storage
 
     def __str__(self):
-        """ returns a string representation of the class"""
+        """returns a string representation of the class"""
         return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
@@ -42,7 +42,7 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """ returns a dict of all key/values of __dict__ of the instance"""
+        """returns a dict of all key/values of __dict__ of the instance"""
         # start with an empty dictionary
         dict_output = {}
 
