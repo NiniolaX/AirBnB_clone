@@ -128,8 +128,8 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             # Remove the 'update' part and the parentheses
-            r_cmd = r_cmd.replace
-            ('update', '').replace('(', '').replace(')', '')
+            r_cmd = r_cmd.replace('update', '')\
+                .replace('(', '').replace(')', '')
 
             if len(r_cmd) == 0:
                 print("** instance id missing **")
@@ -161,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
 
                 try:
                     attr_name, attr_value = \
-                            [parts.strip() for part in parts[1].split(',', 1)]
+                            [part.strip() for part in parts[1].split(',', 1)]
                 except Exception as e:
                     print(str(e))
                     return
