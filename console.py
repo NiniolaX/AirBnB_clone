@@ -144,13 +144,13 @@ class HBNBCommand(cmd.Cmd):
             if len(parts) == 2 and parts[1].startswith('{')\
                     and parts[1].endswith('}'):
                 try:
-                    attr_dict = eval(parts[1])
+                    attr_dict = eval(parts[1].replace("'", '"'))
                 except Exception as e:
                     print(str(e))
                     return
                 # combine the class,id andn dict into one str
-                args = f"{class_name} {id_} {attr_dict}"
-                return
+                args = '{} {} {}'.format(
+                        class_name, id_, str(attr_dict).replace('\'', '\"'))
                 self.do_update(args)
                 return
             else:
@@ -292,6 +292,7 @@ class HBNBCommand(cmd.Cmd):
         changes/updates are saved into the JSON file)
         e.g $ update BaseModel 1234-1234-1234 email "aibnb@gmail.com
         """
+
         if not args:
             print("** class name missing **")
             return
@@ -319,16 +320,17 @@ class HBNBCommand(cmd.Cmd):
             return
 
         instance = instances[instance_key]
-        if rest_args[2].startswith('{') and rest_args[-1].endswith('}'):
+
+        if rest_args[1].startswith('{') and rest_args[-1].endswith('}'):
             try:
                 # convert single quotes to double quotes
-                json_str = ' '.join(rest_args[2:]).replace("'", '"')
+                json_str = ' '.join(rest_args[1:])
                 value_dict = json.loads(json_str)
 
                 for key, value in value_dict.items():
-                    setattr(instance, key, normalize_value(value))
+                    setattr(instance, key, value)
             except (json.JSONDecodeError, Exception) as e:
-                print(str(e))
+                print("json.JSONDecodeError ", str(e))
                 pass
         else:
             if len(rest_args) == 2:
@@ -342,11 +344,6 @@ class HBNBCommand(cmd.Cmd):
 
         instance.updated_at = datetime.now()
         instance.save()  # save to JSON file
-
-    def update_from_dict(self, value_dict):
-        """Update instance attr using a dictionary"""
-        for key, value in value_dict.items():
-            setattr(self, key, value)
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
