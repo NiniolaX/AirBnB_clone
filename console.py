@@ -65,18 +65,29 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def onecmd(self, line):
-        match = re.match(r'^(?P<class_name>\w+)\.all\(\)$', line)
+        match = re.match(r'^(?P<class_name>\w*)\.all\(\)$', line)
         if match:
             class_name = match.group('class_name')
+            if not class_name:
+                print("** class name missing **")
+                return
+
             if class_name in class_list:
                 self.do_all(class_name)
             else:
                 print("** class doesn't exist **")
             return
 
-        match = re.match(r'^(?P<class_name>\w+)\.count\(\)$', line)
+        match = re.match(r'^(?P<class_name>\w*)\.count\(\)$', line)
         if match:
             class_name = match.group('class_name')
+            if not class_name:
+                print("** class name missing **")
+                return
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
             if class_name in class_list:
                 instances = storage.all()
                 count = sum(1 for instance_key
@@ -90,28 +101,48 @@ class HBNBCommand(cmd.Cmd):
             return
 
         match = re.match\
-            (r'^(?P<cls_n>\w+)\.show\(["\']?(?P<id>[\w-]+)["\']?\)$',
+            (r'^(?P<cls_n>\w*)\.show\(["\']?(?P<id>[\w-]*)["\']?\)$',
                 line)
         if match:
             class_name = match.group('cls_n')
+            if not class_name:
+                print("** class name missing **")
+                return
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
             id_ = match.group('id')
+            if not id_:
+                print("** instance id missing **")
+                return
             if class_name in class_list:
                 # construct the arg string
-                args = class_name + " " + id_
+                args = f"{class_name} {id_}"
                 self.do_show(args)
             else:
                 print("** class doesn't exist **")
             return
 
         match = re.match\
-            (r'^(?P<cls_n>\w+)\.destroy\(["\']?(?P<id>[\w-]+)["\']?\)$',
+            (r'^(?P<cls_n>\w*)\.destroy\(["\']?(?P<id>[\w-]*)["\']?\)$',
                 line)
         if match:
             class_name = match.group('cls_n')
+            if not class_name:
+                print("** class name missing **")
+                return
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
             id_ = match.group('id')
+            if not id_:
+                print("** instance id missing **")
+                return
             if class_name in class_list:
                 # construct the arg string
-                args = class_name + " " + id_
+                args = f"{class_name} {id_}"
                 self.do_destroy(args)
             else:
                 print("** class doesn't exist **")
@@ -126,6 +157,10 @@ class HBNBCommand(cmd.Cmd):
             if not class_name:
                 print("** class name missing **")
                 return
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
 
             # Remove the 'update' part and the parentheses
             r_cmd = r_cmd.replace('update', '')\
@@ -157,6 +192,11 @@ class HBNBCommand(cmd.Cmd):
                 # if not dict assume reg values
                 if len(parts) == 1:
                     print("** attribute name missing **")
+                    return
+
+                # Check if parts[1] has only one element
+                if len(parts[1].split(',')) == 1:
+                    print("** value missing **")
                     return
 
                 try:
