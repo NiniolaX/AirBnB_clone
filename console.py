@@ -4,11 +4,13 @@ Which serves as an entry point of a command interpreter
 """
 
 
-import cmd
+from datetime import datetime
 import json
 import re
+
+import cmd
+
 from models.base_model import BaseModel
-from datetime import datetime
 from models import storage
 from models.user import User
 from models.place import Place
@@ -100,8 +102,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         match = re.match\
-            (r'^(?P<cls_n>\w*)\.show\(["\']?(?P<id>[\w-]*)["\']?\)$',
-                line)
+            (r'^(?P<cls_n>\w*)\.show\(["\']?(?P<id>[\w-]*)["\']?\)$', line)
         if match:
             class_name = match.group('cls_n')
             if not class_name:
@@ -124,8 +125,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         match = re.match\
-            (r'^(?P<cls_n>\w*)\.destroy\(["\']?(?P<id>[\w-]*)["\']?\)$',
-                line)
+            (r'^(?P<cls_n>\w*)\.destroy\(["\']?(?P<id>[\w-]*)["\']?\)$', line)
         if match:
             class_name = match.group('cls_n')
             if not class_name:

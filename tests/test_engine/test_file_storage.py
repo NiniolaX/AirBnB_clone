@@ -20,7 +20,7 @@ class TestInstanceInitialization(unittest.TestCase):
             os.remove(self.file_path)
 
     def test_initialize_instance(self):
-        """Verify FileStorage instance is initialized and file doesn't exist."""
+        """chk FileStorage instance is initialized and file doesn't exist."""
         self.assertFalse(os.path.exists(self.file_path))
         storage_instance = FileStorage()
         self.assertFalse(os.path.exists(self.file_path))
@@ -36,7 +36,7 @@ class TestAllInstanceMethod(unittest.TestCase):
             os.remove(self.file_path)
 
     def test_all_instance_method(self):
-        """Verify 'all' method returns a dictionary and updates with new instances."""
+        """chk 'all' method returns a dict and updates with new instances."""
         storage_instance = FileStorage()
         all_objects = storage_instance.all()
         self.assertIsInstance(all_objects, dict)
@@ -155,7 +155,8 @@ class TestSaveInstanceMethod(unittest.TestCase):
 
             storage_instance.reload()
             key = model_instance1.__class__.__name__ + "." + model_instance1.id
-            self.assertEqual(model_instance1.id, storage_instance.all()[key].id)
+            self.assertEqual(model_instance1.id,
+                             storage_instance.all()[key].id)
 
             with self.assertRaises(TypeError):
                 storage_instance.reload(1.5)
