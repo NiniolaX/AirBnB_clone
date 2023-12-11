@@ -1,16 +1,15 @@
 #!/usr/bin/python3
 
 
-""" this program creates a console
+"""this program creates a console
 Which serves as an entry point of a command interpreter
 """
 
 
-# import the cmd module
 import cmd
 import json
 import re
-from models.base_model import BaseModel  # import the BaseModel
+from models.base_model import BaseModel
 from datetime import datetime
 from models import storage
 from models.user import User
@@ -21,7 +20,6 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-# function to noralize values of the dictionary
 def normalize_value(str_v):
     """function to normalize values """
     # check if the value is an integer
@@ -45,7 +43,6 @@ def normalize_value(str_v):
         return str_v.strip('"')  # remove the double uotes if found
 
 
-# create a list of all allowed/available classes
 class_list = {
         'BaseModel': BaseModel,
         'User': User,
@@ -272,7 +269,6 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id
         The changes are saved into the JSON file
-        e.g: $ destroy BaseModel 1234-1234-1234
         """
         args = args.split()
 
@@ -306,7 +302,6 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """prints all string representation of all instances
         printing is based on  or not on the class name
-        i.e whether: all BaseModel or all
         """
 
         args = args.split()  # split the args string into separate arguments
@@ -331,7 +326,6 @@ class HBNBCommand(cmd.Cmd):
         """updates the instances based on the classs name and id
         this is done by adding or updating attr
         changes/updates are saved into the JSON file)
-        e.g $ update BaseModel 1234-1234-1234 email "aibnb@gmail.com
         """
 
         if not args:
