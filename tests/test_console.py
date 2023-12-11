@@ -38,12 +38,14 @@ class TestHBNBCommand_prompt_behaviour(unittest.TestCase):
 
 class TestHBNBCommand_help_cmd(unittest.TestCase):
     """Test for help documentation for each cmd in the  HBNB console"""
-    
+
     def test_help(self):
         """test the help output when called"""
-        msg = ("Documented commands (type help <topic>):\n"
-             "========================================\n"
-             "EOF  all  create  destroy  help  quit  show  update")
+        msg = (
+                "Documented commands (type help <topic>):\n"
+                "========================================\n"
+                "EOF  all  create  destroy  help  quit  show  update"
+                )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help"))
             self.assertEqual(msg, output.getvalue().strip())
@@ -862,8 +864,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         msg = "** instance id missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("update BaseModel"))
-            self.assertEqual(msg, output.getvalue().strip()
-                    )
+            self.assertEqual(msg, output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("update User"))
             self.assertEqual(msg, output.getvalue().strip())
@@ -1304,7 +1305,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_Cmd += "{'attr_name': 'attr_value'})"
         HBNBCommand().onecmd(test_Cmd)
         sample_dict = storage.all()["BaseModel.{}".format(id_)].__dict__
-        #check if the key attr_name exists in the dictionary
+        # check if the key attr_name exists in the dictionary
         self.assertIn("attr_name", sample_dict)
         self.assertNotEqual("new_value", sample_dict.get("attr_name"))
 
