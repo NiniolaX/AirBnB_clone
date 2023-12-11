@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+
+
 """ this program creates a console
 Which serves as an entry point of a command interpreter
 """
@@ -258,7 +260,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        # get instances from the storage variable in __init__
+        # get instances from the storage variable in
         instances = storage.all()
         instance_key = args[0] + "." + args[1]
         if instance_key in instances:
