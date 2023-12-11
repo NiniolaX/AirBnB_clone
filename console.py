@@ -161,7 +161,6 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
-
             # Remove the 'update' part and the parentheses
             r_cmd = r_cmd.replace('update', '')\
                 .replace('(', '').replace(')', '')
