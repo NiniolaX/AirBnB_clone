@@ -48,7 +48,7 @@ To start the command interpreter, follow these steps:
 
 ```
 # Navigate to the command interpreter directory
-cd airbnb-clone/command_interpreter
+cd AirBnB_clone
 
 # Run the interpreter
 python console.py
@@ -68,19 +68,19 @@ Here are some examples of using the command interpreter:
 
 ```
 # Create a new user instance
-(create) User
+$ create User
 
 # Show details of a user instance with ID 123
-(show) User 123
+$ show User 123
 
 # Destroy (delete) a user instance with ID 456
-(destroy) User 456
+$ destroy User 456
 
 # Display all instances of the User class
-(all) User
+$ all User
 
 # Update the email attribute of a user instance with ID 789
-(update) User 789 email "newemail@example.com"
+$ update User 789 email "newemail@example.com"
 ```
 
 ## Authors

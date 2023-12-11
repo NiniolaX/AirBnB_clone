@@ -18,7 +18,7 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-""" Create a dictionary mapping class names to class objects """
+"""create a dictionary mapping class names to class objects"""
 class_list = {
         'BaseModel': BaseModel,
         'User': User,
@@ -63,6 +63,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def onecmd(self, line):
+        """this method handles default behaviours of commands"""
         match = re.match(r'^(?P<class_name>\w*)\.all\(\)$', line)
         if match:
             class_name = match.group('class_name')
