@@ -101,8 +101,9 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             return
 
-        match = re.match \
-            (r'^(?P<cls_n>\w*)\.show\(["\']?(?P<id>[\w-]*)["\']?\)$', line)
+        match = re.match(
+            r'^(?P<cls_n>\w*)\.show\(["\']?(?P<id>[\w-]*)["\']?\)$',
+            line)
         if match:
             class_name = match.group('cls_n')
             if not class_name:
@@ -124,8 +125,9 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             return
 
-        match = re.match \
-            (r'^(?P<cls_n>\w*)\.destroy\(["\']?(?P<id>[\w-]*)["\']?\)$', line)
+        match = re.match(
+            r'^(?P<cls_n>\w*)\.destroy\(["\']?(?P<id>[\w-]*)["\']?\)$',
+            line)
         if match:
             class_name = match.group('cls_n')
             if not class_name:
