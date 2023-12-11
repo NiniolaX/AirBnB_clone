@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-
-
 """this program creates a console
 Which serves as an entry point of a command interpreter
 """
@@ -18,6 +16,18 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+
+
+""" Create a dictionary mapping class names to class objects """
+class_list = {
+        'BaseModel': BaseModel,
+        'User': User,
+        'Place': Place,
+        'State': State,
+        'City': City,
+        'Amenity': Amenity,
+        'Review': Review
+        }
 
 
 def normalize_value(str_v):
@@ -41,17 +51,6 @@ def normalize_value(str_v):
         return str_v[1:-1]  # Remove the double quotes
     else:
         return str_v.strip('"')  # remove the double uotes if found
-
-
-class_list = {
-        'BaseModel': BaseModel,
-        'User': User,
-        'Place': Place,
-        'State': State,
-        'City': City,
-        'Amenity': Amenity,
-        'Review': Review
-        }
 
 
 class HBNBCommand(cmd.Cmd):
