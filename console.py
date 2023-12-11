@@ -31,7 +31,7 @@ class_list = {
 
 
 def normalize_value(str_v):
-    """function to normalize values """
+    """function to normalize values"""
     # check if the value is an integer
     if str_v.isdigit() or (str_v[0] == '-' and str_v[1:].isdigit()):
         return int(str_v)
@@ -54,8 +54,8 @@ def normalize_value(str_v):
 
 
 class HBNBCommand(cmd.Cmd):
-    """this classs defines the functionality of a CLI
-    It inherits all the features of the Cmd class
+    """this classs defines the functionality of a cli
+    It inherits all the features of the _cmd class
     via this class we can run methods that acts like a native shell command
     """
 
@@ -216,7 +216,7 @@ class HBNBCommand(cmd.Cmd):
         return super().onecmd(line)
 
     def do_create(self, args):
-        """creates a new instance of BaseModel
+        """creates a new instance of base_model
         saves it (to the JSON file) and prints the id
         """
         if not args:  # if class name is missing
@@ -385,7 +385,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, line):
-        """ quits the console when 'EOF' is triggered"""
+        """quits the console when eof is triggered"""
         print()
         return True
 
