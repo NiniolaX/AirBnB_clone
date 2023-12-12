@@ -2,12 +2,12 @@
 
 """Test module for City class."""
 
-
-from models.city import City
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.city import City
+from datetime import datetime
 
 
 class TestCityInitialization(unittest.TestCase):

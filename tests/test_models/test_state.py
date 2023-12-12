@@ -3,11 +3,12 @@
 """ Test module for State class """
 
 
-from models.state import State
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.state import State
+from datetime import datetime
 
 
 class TestStateInitialization(unittest.TestCase):

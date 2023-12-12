@@ -2,10 +2,14 @@
 
 """Tests for FileStorage class."""
 
+
+import unittest
 import uuid
 import json
-import unittest
 import os
+
+import models
+
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 

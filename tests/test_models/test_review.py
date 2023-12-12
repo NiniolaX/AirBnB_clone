@@ -3,11 +3,12 @@
 """ Test module for Review class """
 
 
-from models.review import Review
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.review import Review
+from datetime import datetime
 
 
 class TestReviewInitialization(unittest.TestCase):

@@ -3,11 +3,12 @@
 """Test module for BaseModel class."""
 
 
-from models.base_model import BaseModel
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.base_model import BaseModel
+from datetime import datetime
 
 
 class TestBaseModelInitialization(unittest.TestCase):

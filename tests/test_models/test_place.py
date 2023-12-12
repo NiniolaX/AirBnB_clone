@@ -3,11 +3,12 @@
 """Test module for Place class."""
 
 
-from models.place import Place
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.place import Place
+from datetime import datetime
 
 
 class TestInitialization(unittest.TestCase):

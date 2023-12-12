@@ -3,11 +3,12 @@
 """Test module for User class."""
 
 
-from models.user import User
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.user import User
+from datetime import datetime
 
 
 class TestUserInitialization(unittest.TestCase):

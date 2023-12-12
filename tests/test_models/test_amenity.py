@@ -3,11 +3,12 @@
 """Test module for Amenity class."""
 
 
-from models.amenity import Amenity
 import unittest
-from datetime import datetime
 import io
 import sys
+
+from models.amenity import Amenity
+from datetime import datetime
 
 
 class TestAmenityInitialization(unittest.TestCase):
