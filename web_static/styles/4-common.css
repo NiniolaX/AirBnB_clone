@@ -1,4 +1,9 @@
 /* Global styles */
+* {
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	display: flex;
 	flex-direction: column;
@@ -7,6 +12,15 @@ body {
 	color: #484848;
 	font-size: 14px;
 	font-family: Circular, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h3 {
+        font-weight: 600;
+}
+
+h4 {
+        font-weight: 400;
+        font-size: 14px;
 }
 
 .container {
