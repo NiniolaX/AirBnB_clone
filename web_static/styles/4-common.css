@@ -14,21 +14,17 @@ body {
 	font-family: Circular, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-h2 {
-	font-size: 18px;
-}
-
-h3 {
-        font-weight: 600;
-}
-
-h4 {
-        font-weight: 400;
-        font-size: 14px;
-}
-
 .container {
 	width: 100%;
 	max-width: 1000px;
 	margin: 30px auto;
+}
+
+h3 {
+	font-weight: 600;
+}
+
+h4 {
+	font-weight: 400;
+	font-size: 14px;
 }

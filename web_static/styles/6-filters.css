@@ -57,6 +57,7 @@ button:hover {
 /* Remove list item marker */
 .filters ul {
 	padding-left: 15px;
+	font-weight: 500;
 	list-style: none;
 }
 
@@ -64,6 +65,7 @@ button:hover {
 	padding: 8% 10% 15%;
 }
 .locations .popover h2 {
+	font-size: 16px;
 	margin-top: 20px;
 }
 .amenities .popover {
