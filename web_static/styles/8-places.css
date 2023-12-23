@@ -1,0 +1,87 @@
+/* Style for Places section */
+section.places {
+	padding: 30px 15px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+section.places h1 {
+	font-size: 30px;
+	width: 100%;
+}
+
+article {
+	width: 390px;
+	padding: 20px;
+	margin: 20px;
+	border: solid 1px #FF5A5F;
+	border-radius: 4px;
+	position: relative;
+}
+article h2 {
+	font-size: 30px;
+	text-align: center;
+}
+
+div.price_by_night {
+	color: #FF5A5F;
+	font-size: 30px;
+	border: solid 4px #FF5A5F;
+	border-radius: 100%;
+	min-width: 60px;
+	min-height: 60px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+}
+
+div.information {
+	height: 80px;
+	border-top: solid 1px #DDDDDD;
+	border-bottom: solid 1px #DDDDDD;
+	margin-top: 60px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+div.max_guest,
+div.number_rooms,
+div.number_bathrooms {
+	width: 100px;
+	height: 65px;
+	text-align: center;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Place icons in each information subcategory */
+.max_guest {
+	background: #FFFFFF url('../images/guest_icon.png') no-repeat top center;
+}
+.number_rooms {
+	background: #FFFFFF url('../images/rooms_icon.png') no-repeat top center;
+}
+.number_bathrooms {
+	background: #FFFFFF url('../images/bath_icon.png') no-repeat top center;
+}
+
+/* Place information summary under icon */
+.max_guest span,
+.number_rooms span,
+.number_bathrooms span {
+	position: absolute;
+	bottom: 0;
+}
+
+div.user {
+	margin: 20px 0 10px 0;
+}
+
