@@ -1,2 +1,8 @@
 #Ignore initial project files
 ipadeola
+argskwargs
+datetime
+uuid
+cmdmodule
+test
+test_1.py
