@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-    """Tests the BaseModel class"""
+    """Tests the BaseModel of the models module class"""
 
     def setUp(self):
         """Set up BaseModel object for testing"""
@@ -17,6 +17,17 @@ class TestBaseModel(unittest.TestCase):
         """Tests the class constructor"""
         self.assertIsInstance(self.model1, BaseModel)
         self.assertIsInstance(self.model2, BaseModel)
+
+        # Test that object re-creation from its dict representation works:
+
+        # Generate dictionary representation of original object (self.model1)
+        actual_obj_dict = self.model1.to_dict()
+
+        # Re-create original object from its dictionary representation
+        recreated_obj = BaseModel(**actual_obj_dict)
+
+        # Check that str represantations of actual obj and re-cereated are same
+        self.assertEqual(str(recreated_obj), str(self.model1))
 
     def test_attr_id(self):
         """Tests the id attribute of instance"""
@@ -59,7 +70,7 @@ class TestBaseModel(unittest.TestCase):
         expected_dict = self.model1.to_dict()
 
         # Check that only instance attributes set are in expected_dict
-        self.assertNotIn('name', expected_dict)
+        self.assertNotIn('unset_attr', expected_dict)
 
         # Check that __class__ key and value exists
         self.assertIn('__class__', expected_dict)
