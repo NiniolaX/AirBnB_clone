@@ -4,6 +4,7 @@ import unittest
 from models.base_model import BaseModel
 from datetime import datetime, timedelta
 
+
 class TestBaseModel(unittest.TestCase):
     """Tests the BaseModel class"""
 
@@ -35,9 +36,9 @@ class TestBaseModel(unittest.TestCase):
 
     def test_method_str(self):
         """Tests the str method"""
-        expected_string = f"[BaseModel] ({self.model1.id}) {self.model1.__dict__}"
-        actual_string = str(self.model1)
-        self.assertMultiLineEqual(expected_string, actual_string)
+        expected_str = f"[BaseModel] ({self.model1.id}) {self.model1.__dict__}"
+        actual_str = str(self.model1)
+        self.assertMultiLineEqual(expected_str, actual_str)
 
     def test_method_save(self):
         """Tests the save public instance method"""
@@ -56,11 +57,11 @@ class TestBaseModel(unittest.TestCase):
     def test_method_to_dict(self):
         """Tests the to_dict public instance method"""
 
-
     def teardown(self):
         """Dispose test object"""
         self.model1.dispose()
         self.model2.dispose()
+
 
 if __name__ == "__main__":
     unittest.main()
