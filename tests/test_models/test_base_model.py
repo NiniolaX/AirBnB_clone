@@ -2,7 +2,7 @@
 """Unit test for BaseModel"""
 import unittest
 from models.base_model import BaseModel
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
@@ -56,6 +56,32 @@ class TestBaseModel(unittest.TestCase):
 
     def test_method_to_dict(self):
         """Tests the to_dict public instance method"""
+        expected_dict = self.model1.to_dict()
+
+        # Check that only instance attributes set are in expected_dict
+        self.assertNotIn('name', expected_dict)
+
+        # Check that __class__ key and value exists
+        self.assertIn('__class__', expected_dict)
+
+        # Check that value of __class__ key is class name of object
+        self.assertEqual(expected_dict['__class__'], 'BaseModel')
+
+        # Check that created_at and updated_at attr of dict are string objects
+        self.assertIsInstance(expected_dict['created_at'], str)
+        self.assertIsInstance(expected_dict['updated_at'], str)
+
+        # Check that created_at and updated_at attr of dict are in ISO format
+        def is_ISO_format(datetime_str):
+            """Attempt to parse a string into datetime object in ISO format"""
+            try:
+                datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M:%S.%f")
+                return True
+            except ValueError:
+                return False
+
+        self.assertTrue(is_ISO_format(expected_dict['created_at']))
+        self.assertTrue(is_ISO_format(expected_dict['updated_at']))
 
     def teardown(self):
         """Dispose test object"""
