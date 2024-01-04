@@ -2,6 +2,7 @@
 
 import uuid
 from datetime import datetime
+from models import storage
 
 """
 This module defines a class BaseModel which defines all common attributes and
@@ -48,6 +49,8 @@ class BaseModel:
                         setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
                     else:
                         setattr(self, key, value)
+        else:
+            storage.new(self)
 
     def __str__(self):
         """
@@ -59,6 +62,7 @@ class BaseModel:
     def save(self):
         """Updates attribute updated_at with the current datetime"""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
