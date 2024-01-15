@@ -6,12 +6,17 @@ from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-    """Tests the BaseModel of the models module class"""
+    """Tests the BaseModel class of the models module class"""
 
     def setUp(self):
-        """Set up BaseModel object for testing"""
+        """Sets up BaseModel object for testing"""
         self.model1 = BaseModel()
         self.model2 = BaseModel()
+
+    def tearDown(self):
+        """Dispose test object"""
+        del self.model1
+        del self.model2
 
     def test_constructor(self):
         """Tests the class constructor"""
@@ -94,10 +99,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(is_ISO_format(expected_dict['created_at']))
         self.assertTrue(is_ISO_format(expected_dict['updated_at']))
 
-    def teardown(self):
-        """Dispose test object"""
-        self.model1.dispose()
-        self.model2.dispose()
 
 
 if __name__ == "__main__":
