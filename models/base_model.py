@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 import uuid
+import models
 from datetime import datetime
-from models import storage
 
 """
 This module defines a class BaseModel which defines all common attributes and
@@ -37,10 +37,6 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Constructs a new instance of the class"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
-
         if kwargs:
             # If kwargs is not empty, create BaseModel object from dictionary
             for key, value in kwargs.items():
@@ -51,7 +47,11 @@ class BaseModel:
                     else:
                         setattr(self, key, value)
         else:
-            storage.new(self)
+            # If kwargs is empty, create a new BaseModel object
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
+            models.storage.new(self)
 
     def __str__(self):
         """
@@ -63,7 +63,7 @@ class BaseModel:
     def save(self):
         """Updates attribute updated_at with the current datetime"""
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """
