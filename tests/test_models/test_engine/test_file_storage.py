@@ -12,8 +12,8 @@ class TestStorageEngine(unittest.TestCase):
 
     def setUp(self):
         """Sets up a FileStorage object for testing"""
-        # Delete storage file before each new test
         self.file_path = "file.json"
+        # Delete storage file if exists
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
 
@@ -24,11 +24,13 @@ class TestStorageEngine(unittest.TestCase):
     def tearDown(self):
         """Disposes test objects"""
         del self.test_obj
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
 
     def test_private_attr_file_path(self):
         """Tests private class attribute file_path"""
         # Check that storage file exists
-        self.storage.save() # since save() creates new file if one doesn't exist
+        self.storage.save()  # since save() creates file if it doesn't exist
         self.assertTrue(os.path.exists(self.file_path))
 
     def test_attr_objects(self):
@@ -71,3 +73,31 @@ class TestStorageEngine(unittest.TestCase):
 
     def test_method_save(self):
         """Tests the 'save' method"""
+        # Check that file is created on call to save()
+        self.assertFalse(os.path.exists(self.file_path))
+        self.storage.save()  # Saving BaseModel object created in setUp()...
+        self.assertTrue(os.path.exists(self.file_path))
+
+        # Check that saved object exists in file
+        saved_obj_key = f"BaseModel.{self.test_obj.id}"
+
+        with open(self.file_path, 'r') as file:
+            file_content = file.read()
+
+        self.assertIn(saved_obj_key, file_content)
+
+    def test_method_reload(self):
+        """Tests the 'reload' method"""
+        actual_obj = self.test_obj
+        self.storage.save()  # Saving actual_obj ...
+        self.storage.reload()
+
+        # Getting reloaded object
+        all_reloaded_objs = self.storage.all()
+        for key in all_reloaded_objs.keys():
+            if key == f"BaseModel.{actual_obj.id}":
+                reloaded_obj = all_reloaded_objs[key]
+
+        self.assertEqual(actual_obj.id, reloaded_obj.id)
+        self.assertEqual(actual_obj.created_at, reloaded_obj.created_at)
+        self.assertEqual(actual_obj.updated_at, reloaded_obj.updated_at)

@@ -4,6 +4,7 @@ argskwargs
 datetime
 uuid
 cmdmodule
+normal_tests
 test
 test_1.py
 test_2.py

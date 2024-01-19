@@ -100,6 +100,5 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(is_ISO_format(expected_dict['updated_at']))
 
 
-
 if __name__ == "__main__":
     unittest.main()
