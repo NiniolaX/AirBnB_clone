@@ -1,9 +1,4 @@
 #!/usr/bin/python3
-
-import uuid
-import models
-from datetime import datetime
-
 """
 This module defines a class BaseModel which defines all common attributes and
 methods for other classes.
@@ -17,6 +12,11 @@ Attributes:
 Functions:
     None
 """
+
+
+import uuid
+import models
+from datetime import datetime
 
 
 class BaseModel:

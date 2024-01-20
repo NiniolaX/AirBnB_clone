@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-import json
-from models.base_model import BaseModel
 """
 This module defines a class Filetorage that serializes instances to a JSON
 file and deserializes JSON file to instances.
@@ -15,6 +13,10 @@ Attributes:
 Functions:
     None
 """
+
+
+import json
+from models.base_model import BaseModel
 
 
 class FileStorage:

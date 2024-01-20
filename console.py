@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-import cmd
 """
-This module contains the command interpreter for our AirBnB project.
+This module creates a command line interpreter (console) which serves as the
+entry point for the AirBnB project.
 
 Class:
-    HBNBCommand: Command interpreter for AirBnB project
+    HBNBCommand: Defines commands available on the AirBnB console
 
 Attributes:
     None
@@ -14,8 +14,11 @@ Functions:
 """
 
 
+import cmd
+
+
 class HBNBCommand(cmd.Cmd):
-    """Command interpreter for AirBnB project"""
+    """This class defines the commands available on our AirBnB Console."""
     prompt = '(hbnb) '
 
     def do_quit(self, line):
