@@ -17,9 +17,32 @@ Functions:
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from datetime import datetime
 import textwrap
 
 class_list = ["BaseModel"]
+
+
+def format_value(string):
+    """Casts a given value from string to its correct type.
+
+    Args:
+        string(str): Value to be formatted
+
+    Return:
+        formatted_val (int, float or str): Formatted value
+    """
+    if '.' in string and not (string.startswith('"') and string.endswith('"')):
+        formatted_val = float(string)
+    elif string.isdigit() or (string[0] == '-' and string[1:].isdigit()):
+        formatted_val = int(string)
+    else:
+        # Remove double quotes
+        formatted_val = ""
+        for c in string:
+            if c != '"':
+                formatted_val = formatted_val + c
+    return formatted_val
 
 
 class HBNBCommand(cmd.Cmd):
@@ -112,7 +135,9 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             Nothing
         """
-        if args:
+        if not args:
+            print("** class name missing **")
+        else:
             cmd_args = args.split()  # split args to extract class name and id
             if len(cmd_args) < 2:
                 print("** instance id missing **")
@@ -120,18 +145,16 @@ class HBNBCommand(cmd.Cmd):
                 instance_class_name = cmd_args[0]
                 instance_id = cmd_args[1]
 
-                if instance_class_name in class_list:
+                if instance_class_name not in class_list:
+                    print("** class doesn't exist **")
+                else:
                     all_objs = storage.all()
                     instance_key = f"{instance_class_name}.{instance_id}"
-                    if instance_key in all_objs.keys():
+                    if instance_key not in all_objs.keys():
+                        print("** no instance found **")
+                    else:
                         del all_objs[instance_key]
                         storage.save()
-                    else:
-                        print("** no instance found **")
-                else:
-                    print("** class doesn't exist **")
-        else:
-            print("** class name missing **")
 
     def help_destroy(self):
         """Help documentation for destroy command."""
@@ -181,6 +204,68 @@ class HBNBCommand(cmd.Cmd):
         not on the class name
 
         Usage: all <class_name> or all
+        Returns: Nothing
+        """
+        formatted_help_text = textwrap.dedent(help_text)
+        print(formatted_help_text)
+
+    def do_update(self, args):
+        """
+        Updates an instance based on the class name and id by adding or
+        updating an attribute.
+
+        Args:
+            args(str): classname, id, attribute name and attribute value
+
+        Returns:
+            Nothing
+        """
+        if not args:
+            print("** class name missing **")
+        else:
+            class_name, *rem_args = args.split()
+
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
+            if not rem_args:
+                print("** instance id missing **")
+                return
+
+            instance_id = rem_args[0]  # setting 2nd arg as instance id
+            # Check if instance of class name provided exists
+            all_instances = storage.all()
+            instance_key = f"{class_name}.{instance_id}"
+            if instance_key not in all_instances.keys():
+                print("** no instance found **")
+                return
+
+            if len(rem_args) < 2:
+                print("** attribute name missing **")
+                return
+            attr_name = rem_args[1]
+
+            if len(rem_args) < 3:
+                print("** value missing **")
+                return
+            attr_value = rem_args[2]
+
+            # Extract instance
+            instance = all_instances[instance_key]
+
+            # Update instance
+            setattr(instance, attr_name, format_value(attr_value))
+            self.updated_at = datetime.now()
+            storage.save()
+
+    def help_update(self):
+        """Help documentation for update command."""
+        help_text = """
+        Update command updates an instance based on its class name and id
+        by adding or updating attribute.
+
+        Usage: update <class_name> <instance_id> <attr_name> <attr value>
         Returns: Nothing
         """
         formatted_help_text = textwrap.dedent(help_text)
