@@ -272,9 +272,10 @@ class HBNBCommand(cmd.Cmd):
         print(formatted_help_text)
 
     def emptyline(self):
+        """Handles emptyline + ENTER"""
         pass
 
-    def do_quit(self, args):
+    def do_quit(self, line):
         """Exits the console.
 
         Args:
@@ -289,7 +290,7 @@ class HBNBCommand(cmd.Cmd):
         """Help documentation for quit command."""
         print("Quit command to exit the program.\n")
 
-    def do_EOF(self, args):
+    def do_EOF(self, line):
         """Exits the console.
 
         Args:
