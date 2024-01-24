@@ -271,6 +271,9 @@ class HBNBCommand(cmd.Cmd):
         formatted_help_text = textwrap.dedent(help_text)
         print(formatted_help_text)
 
+    def emptyline(self):
+        pass
+
     def do_quit(self, args):
         """Exits the console.
 
@@ -286,14 +289,20 @@ class HBNBCommand(cmd.Cmd):
         """Help documentation for quit command."""
         print("Quit command to exit the program.\n")
 
-    do_EOF = do_quit
+    def do_EOF(self, args):
+        """Exits the console.
+
+        Args:
+            args(str) command argument(s)
+
+        Returns:
+            Bool: True to exit console
+        """
+        return True
 
     def help_EOF(self):
         """Help documentation for EOF command."""
         print("EOF command to exit the program.\n")
-
-    def emptyline(self):
-        pass
 
 
 if __name__ == '__main__':
