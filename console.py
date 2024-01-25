@@ -25,6 +25,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import re
 
 class_list = {
         "BaseModel": BaseModel,
@@ -283,6 +284,24 @@ class HBNBCommand(cmd.Cmd):
         """
         formatted_help_text = textwrap.dedent(help_text)
         print(formatted_help_text)
+
+    def onecmd(self, args):
+        """Executes a single command passed as a string.
+
+        Args:
+            args(str): Single command
+        """
+        if '.' in args:
+            class_name, cmd, *rem_args = re.split(r'\.|\(|\,|\)', args)
+            if rem_args:
+                print(f"Rem_args = {rem_args}")
+                cmd_args = "".join(arg for arg in rem_args)
+                all_args = class_name + ' ' + cmd_args
+                print(f"All_args = {all_args}")
+            getattr(self, f"do_{cmd}")(all_args)
+        else:
+            # Call the superclass implementation for other commands
+            return super().onecmd(args)
 
     def emptyline(self):
         """Handles emptyline + ENTER"""
