@@ -292,16 +292,54 @@ class HBNBCommand(cmd.Cmd):
             args(str): Single command
         """
         if '.' in args:
+            # Extract class_name and cmd name first
             class_name, cmd, *rem_args = re.split(r'\.|\(|\,|\)', args)
             if rem_args:
-                print(f"Rem_args = {rem_args}")
+                # Extract remaining arguments from list rem_args to a string
                 cmd_args = "".join(arg for arg in rem_args)
+                # Add class name to beginning of arguments
                 all_args = class_name + ' ' + cmd_args
-                print(f"All_args = {all_args}")
-            getattr(self, f"do_{cmd}")(all_args)
+            try:
+                # Obtain specified command method and pass arguments to it
+                getattr(self, f"do_{cmd}")(all_args)
+            except AttributeError:
+                # Handle error properly if command is not found
+                print(f"*** Unknown syntax: {cmd}")
         else:
             # Call the superclass implementation for other commands
             return super().onecmd(args)
+
+    def do_count(self, args):
+        """Counts the number of instances of a specified class in storage.
+
+        Args:
+            args(str): Class name or null
+
+        Return:
+            Nothing
+        """
+        instance_count = 0
+        all_instances = storage.all()
+        if not args:
+            instance_count = len(all_instances)
+        else:
+            class_name, *rem_args = args.split()
+            for key in all_instances.keys():
+                if key.startswith(class_name + '.'):
+                    instance_count = instance_count + 1
+        print(instance_count)
+
+    def help_count(self):
+        """Help documentation for count command."""
+        help_text = """
+        Count command prints the number of instances in storage based on class
+        name or not.
+
+        Usage: <class_name>.count()
+        Returns: Nothing
+        """
+        formatted_help_text = textwrap.dedent(help_text)
+        print(formatted_help_text)
 
     def emptyline(self):
         """Handles emptyline + ENTER"""
