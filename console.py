@@ -7,20 +7,34 @@ Class:
     HBNBCommand: Defines commands available on the AirBnB console
 
 Attributes:
-    None
+    class_list: List of classes
 
 Functions:
-    None
+    format_value: Casts a given string value to its correct type.
 """
 
 
 import cmd
-from models.base_model import BaseModel
-from models import storage
 from datetime import datetime
 import textwrap
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
-class_list = ["BaseModel"]
+class_list = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "Place": Place,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Review": Review
+        }
 
 
 def format_value(string):
@@ -50,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def do_create(self, args):
-        """Creates a new instance of the BaseModel class
+        """Creates a new instance of a specified class in class_list
 
         Args:
             args(str): name of class
@@ -58,15 +72,16 @@ class HBNBCommand(cmd.Cmd):
         Return:
             None
         """
-        if args:
-            if args in class_list:
-                new_instance = BaseModel()
+        if not args:
+            print("** class name missing **")
+        else:
+            class_name, *rem_args = args.split()
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+            else:
+                new_instance = class_list[class_name]()
                 storage.save()
                 print(new_instance.id)
-            else:
-                print("** class doesn't exist **")
-        else:
-            print("** class name missing **")
 
     def help_create(self):
         """Help documentation for create command."""
@@ -91,9 +106,11 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             Nothing
         """
-        if args:
+        if not args:
+            print("** class name missing **")
+        else:
             cmd_args = args.split()  # split args to extract class name and id
-            if len(cmd_args) < 2:
+            if len(cmd_args) == 1:
                 print("** instance id missing **")
             else:
                 instance_class_name = cmd_args[0]
@@ -101,18 +118,14 @@ class HBNBCommand(cmd.Cmd):
                 if instance_class_name not in class_list:
                     print("** class doesn't exist **")
                 else:
-                    # Extract instance from objects in storage
+                    # Print instance from objects in storage
                     all_objs = storage.all()
                     instance_key = f"{instance_class_name}.{instance_id}"
                     if instance_key not in all_objs.keys():
                         print("** no instance found **")
                     else:
-                        for obj_key in all_objs.keys():
-                            if obj_key == instance_key:
-                                instance = all_objs[obj_key]
-                                print(instance)  # Print instance
-        else:
-            print("** class name missing **")
+                        instance = all_objs[instance_key]
+                        print(instance)
 
     def help_show(self):
         """Help documentation for show command."""
@@ -139,7 +152,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             cmd_args = args.split()  # split args to extract class name and id
-            if len(cmd_args) < 2:
+            if len(cmd_args) == 1:
                 print("** instance id missing **")
             else:
                 instance_class_name = cmd_args[0]
@@ -181,16 +194,16 @@ class HBNBCommand(cmd.Cmd):
         all_instances = []
         all_objs = storage.all()
         if args:
+            # Print all instances of class name in storage
             all_args = args.split()
             class_name = all_args[0]
-            if class_name in class_list:
-                # Print all instances of class_name in storage
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+            else:
                 for obj_key, obj_value in all_objs.items():
                     if obj_key.startswith(class_name + '.'):
                         all_instances.append(str(obj_value))
                 print(all_instances)
-            else:
-                print("** class doesn't exist **")
         else:
             # Print all instances in storage
             for obj_key, obj_value in all_objs.items():
@@ -299,6 +312,7 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             Bool: True to exit console
         """
+        print()
         return True
 
     def help_EOF(self):

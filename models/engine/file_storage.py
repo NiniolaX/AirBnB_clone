@@ -8,7 +8,7 @@ Class:
     file to instances..
 
 Attributes:
-    None
+    class_list: List of classes in program
 
 Functions:
     None
@@ -17,6 +17,22 @@ Functions:
 
 import json
 from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+
+class_list = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "Place": Place,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Review": Review
+        }
 
 
 class FileStorage:
@@ -62,8 +78,9 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 loaded_objects = json.load(file)
                 # Store each object in __objects
-                for obj_key, obj_value in loaded_objects.items():
-                    self.__objects[obj_key] = BaseModel(**obj_value)
+                for key, obj in loaded_objects.items():
+                    class_name = obj['__class__']
+                    self.__objects[key] = class_list[class_name](**obj)
         # Do nothing if the file doesn't exist
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
+        except (FileNotFoundError):
             pass
