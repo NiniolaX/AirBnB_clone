@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Unit test for BaseModel"""
+"""Unit test for BaseModel class."""
 
 
 import unittest
@@ -7,7 +7,7 @@ from models.base_model import BaseModel
 from datetime import datetime
 
 
-class TestBaseModel(unittest.TestCase):
+class TestBaseModelClass(unittest.TestCase):
     """Tests the BaseModel class of the models module class"""
 
     def setUp(self):
