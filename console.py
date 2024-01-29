@@ -26,6 +26,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import re
+import json
 
 class_list = {
         "BaseModel": BaseModel,
@@ -236,7 +237,9 @@ class HBNBCommand(cmd.Cmd):
         """
         if not args:
             print("** class name missing **")
-        else:
+            return
+
+        if '{' and '}' not in args:
             class_name, *rem_args = args.split()
 
             if class_name not in class_list:
@@ -246,8 +249,8 @@ class HBNBCommand(cmd.Cmd):
             if not rem_args:
                 print("** instance id missing **")
                 return
-
             instance_id = rem_args[0]  # setting 2nd arg as instance id
+
             # Check if instance of class name provided exists
             all_instances = storage.all()
             instance_key = f"{class_name}.{instance_id}"
@@ -270,8 +273,48 @@ class HBNBCommand(cmd.Cmd):
 
             # Update instance
             setattr(instance, attr_name, format_value(attr_value))
-            self.updated_at = datetime.now()
-            storage.save()
+
+        else:
+            args = args.strip()
+            class_name, *rem_args = args.split(' ', 2)
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+                return
+
+            if not rem_args:
+                print("** instance id missing **")
+                return
+            instance_id = rem_args[0]
+
+            all_instances = storage.all()
+            instance_key = f"{class_name}.{instance_id}"
+            if instance_key not in all_instances.keys():
+                print("** no instance found **")
+                return
+
+            if len(rem_args) < 2:
+                print("** attribute name missing **")
+                return
+
+            attrs_str = rem_args[1].strip()
+            # Convert attr str to json str
+            json_string = ""
+            for c in attrs_str:
+                if c == "'":
+                    json_string = json_string + '"'
+                else:
+                    json_string = json_string + c
+            attrs = json.loads(json_string)
+
+            # Extract instance
+            instance = all_instances[instance_key]
+
+            # Update instance
+            for attr, value in attrs.items():
+                setattr(instance, attr, value)
+
+        self.updated_at = datetime.now()
+        storage.save()
 
     def help_update(self):
         """Help documentation for update command."""
@@ -292,13 +335,18 @@ class HBNBCommand(cmd.Cmd):
             args(str): Single command
         """
         if '.' in args:
-            # Extract class_name and cmd name first
-            class_name, cmd, *rem_args = re.split(r'\.|\(|\,|\)', args)
-            if rem_args:
-                # Extract remaining arguments from list rem_args to a string
-                cmd_args = "".join(arg for arg in rem_args)
-                # Add class name to beginning of arguments
-                all_args = class_name + ' ' + cmd_args
+            if '{' and '}' not in args:
+                # Extract class_name and cmd name first
+                class_name, cmd, *rem_args = re.split(r'\.|\(|\,|\)', args)
+                if rem_args:
+                    # Copy remaining arguments from list rem_args to a string
+                    cmd_args = "".join(arg for arg in rem_args)
+                    # Add class name to beginning of arguments
+                    all_args = class_name + ' ' + cmd_args
+            else:
+                class_name, cmd, instance_id, *rem_arg = re.split(r'\.|\(|\,', args, 3)
+                dict_arg = rem_arg[0].strip(')')
+                all_args = class_name + ' ' + instance_id + ' ' + dict_arg
             try:
                 # Obtain specified command method and pass arguments to it
                 getattr(self, f"do_{cmd}")(all_args)
